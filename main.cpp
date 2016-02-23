@@ -6,9 +6,9 @@ using namespace std;
 
 
 // Declaracion de funciones
-void generaMatriz(int [9][1], int);
+void generaMatriz(int[9][1], int);
 void escogeMatriz(int[9][1], int);
-void resuelveProblema(int[9][1], int[9][1], int [9][1], int[9][1], int);
+void resuelveProblema(int[9][1], int[9][1], int[9][1], int[9][1], int);
 void multiplicaMatrices(int[9][1], int[9][1], int mod);
 
 
@@ -21,7 +21,7 @@ int main(){
 	// Matrices de apoyo para la resolucion del problema
 	int matInicial[9][1];
 	int matFinal[9][1];
-	int sumaMatInicialFinal[9][1];
+	int restaMatInicialFinal[9][1];
 	int matResultado[9][1];
 
 	// Matriz de la suma inicializada en 0
@@ -50,24 +50,24 @@ int main(){
 		switch (m)
 		{
 		case 1: cout << "\t\t\tCrear la matriz inicial\n\n";
-				escogeMatriz(matInicial, mod);
-				cout << "\t\t\tCrear la matriz final\n\n";
-				escogeMatriz(matFinal, mod);
-				resuelveProblema(sumaMatInicialFinal, matInicial, matFinal, matResultado, mod);
-				break;
+			escogeMatriz(matInicial, mod);
+			cout << "\t\t\tCrear la matriz final\n\n";
+			escogeMatriz(matFinal, mod);
+			resuelveProblema(restaMatInicialFinal, matInicial, matFinal, matResultado, mod);
+			break;
 
 		case 2: cout << "\t\t\tCrear la matriz inicial\n\n";
-				generaMatriz(matInicial, mod);
-				cout << "\t\t\tCrear la matriz final\n\n";
-				generaMatriz(matFinal, mod);
-				resuelveProblema(sumaMatInicialFinal, matInicial, matFinal, matResultado, mod);
-				break;
+			generaMatriz(matInicial, mod);
+			cout << "\t\t\tCrear la matriz final\n\n";
+			generaMatriz(matFinal, mod);
+			resuelveProblema(restaMatInicialFinal, matInicial, matFinal, matResultado, mod);
+			break;
 
 		case 3: cout << "Adios" << endl;
-				break;
+			break;
 		default: cout << "El valor ingresado no esta en el menu" << endl;
 		}
-		cout <<endl << "Selecciona una opcion: \n";
+		cout << endl << "Selecciona una opcion: \n";
 		cout << "1  Introducir Matriz Inicial y Final\n";
 		cout << "2  Generar Matriz Inicial y Final\n";
 		cout << "3  Salir\n\n";
@@ -96,7 +96,7 @@ void escogeMatriz(int matInicial[9][1], int mod){
 	cout << "Siguiendo el esquema: " << endl << "1 2 3" << endl << "4 5 6" << endl << "7 8 9" << endl;
 	cout << "Si su numero no va de acuerdo con el modulo que escogio, se le hara automaticamente el modulo";
 	for (int i = 0; i < 9; i++){
-		cout  << endl << "Dame la posicion:  " << i+1 << endl;
+		cout << endl << "Dame la posicion:  " << i + 1 << endl;
 		cin >> matInicial[0][i];
 		matInicial[i][0] = matInicial[i][0] % mod;
 	}
@@ -111,19 +111,24 @@ void escogeMatriz(int matInicial[9][1], int mod){
 }
 
 // Funcion que resuleve el problema.
-void resuelveProblema(int sumaMatInicialFinal[9][1], int matInicial[9][1], int matFinal[9][1], int matResultado[9][1], int mod){
+void resuelveProblema(int restaMatInicialFinal[9][1], int matInicial[9][1], int matFinal[9][1], int matResultado[9][1], int mod){
 	for (int i = 0; i < 9; i++){
 		// GEneracion de la matriz suma
-		sumaMatInicialFinal[i][0] = (matInicial[i][0] + matFinal[i][0])%mod;
-		//cout << sumaMatInicialFinal[i][0] << endl;
+		if ((matInicial[i][0] + matFinal[i][0]) < 0){
+			restaMatInicialFinal[i][0] = ((matInicial[i][0] - matFinal[i][0]) + mod);
+		}
+		else{
+			restaMatInicialFinal[i][0] = (matInicial[i][0] - matFinal[i][0]) % mod;
+		}
+		//cout << restaMatInicialFinal[i][0] << endl;
 	}
 	// Llamada a la funcion que genera la multiplicacion de la inversa de A y la matriz suma
-	multiplicaMatrices(sumaMatInicialFinal, matResultado, mod);
+	multiplicaMatrices(restaMatInicialFinal, matResultado, mod);
 
 
 }
 
-void multiplicaMatrices(int sumaMatInicialFinal[9][1], int matResultados[9][1], int mod){
+void multiplicaMatrices(int restaMatInicialFinal[9][1], int matResultados[9][1], int mod){
 	// Declaracion de la matriz de 9x9, A inversa (A matriz de las diferentes transformaciones que puede sufrir la matriz)
 	int Ainv[9][9];
 	Ainv[0][0] = 1;
@@ -211,8 +216,8 @@ void multiplicaMatrices(int sumaMatInicialFinal[9][1], int matResultados[9][1], 
 	// Guardar el resultado de la multimplicacion entre la inversa de A y la matriz suma.
 	for (int i = 0; i < 9; i++){
 		for (int j = 0; j < 9; j++){
-			//cout << "Acum = " << matResultados[i][0] << endl << "Ainv = " << Ainv[i][j] << endl << "SumaMats = " << sumaMatInicialFinal[j][0];
-			matResultados[i][0] = (matResultados[i][0] + (Ainv[i][j] * sumaMatInicialFinal[j][0]))%mod;
+			//cout << "Acum = " << matResultados[i][0] << endl << "Ainv = " << Ainv[i][j] << endl << "SumaMats = " << restaMatInicialFinal[j][0];
+			matResultados[i][0] = (matResultados[i][0] + (Ainv[i][j] * restaMatInicialFinal[j][0])) % mod;
 		}
 	}
 
@@ -222,7 +227,7 @@ void multiplicaMatrices(int sumaMatInicialFinal[9][1], int matResultados[9][1], 
 	int conta = 0;
 	cout << "Matriz Resultados\n";
 	for (int i = 0; i < 9; i++){
-		if(conta == 3){
+		if (conta == 3){
 			cout << endl;
 			conta = 0;
 		}
@@ -232,8 +237,7 @@ void multiplicaMatrices(int sumaMatInicialFinal[9][1], int matResultados[9][1], 
 		conta++;
 	}
 
-	cout << "Para resolver esa matriz basta con presionar las casillas señaladas con un uno\n";
+	cout << "Para resolver esa matriz basta con presionar las casillas señaladas el numero de veces que aparece (1 o 2)\n";
 
 
 }
-
