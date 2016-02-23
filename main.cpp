@@ -121,7 +121,7 @@ void escogeMatriz(int matInicial[9][1], int mod){
 void resuelveProblema(int restaMatInicialFinal[9][1], int matInicial[9][1], int matFinal[9][1], int matResultado[9][1], int mod){
 	for (int i = 0; i < 9; i++){
 		// GEneracion de la matriz suma
-		if ((matInicial[i][0] + matFinal[i][0]) < 0){
+		if ((matInicial[i][0] - matFinal[i][0]) < 0){
 			restaMatInicialFinal[i][0] = ((matInicial[i][0] - matFinal[i][0]) + mod);
 		}
 		else{
