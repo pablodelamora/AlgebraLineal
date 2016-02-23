@@ -48,13 +48,14 @@ int main(){
 				escogeMatriz(matInicial, mod);
 				cout << "\t\t\tCrear la matriz final\n\n";
 				escogeMatriz(matFinal, mod);
-				resuelveProblema(sumaMatInicialFinal, matInicial, matFinal,matResultado, mod);
+				resuelveProblema(sumaMatInicialFinal, matInicial, matFinal, matResultado, mod);
 				break;
 
 		case 2: cout << "\t\t\tCrear la matriz inicial\n\n";
 				generaMatriz(matInicial, mod);
 				cout << "\t\t\tCrear la matriz final\n\n";
 				generaMatriz(matFinal, mod);
+				resuelveProblema(sumaMatInicialFinal, matInicial, matFinal, matResultado, mod);
 				break;
 
 		case 3: cout << "Adios" << endl;
